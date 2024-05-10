@@ -79,3 +79,12 @@ variable "private_routes" {
   }))
   description = "Map of routes with CIDR block and gateway ID"
 }
+
+variable "domain" {
+  type        = string
+  description = "Set the domain of eip"
+}
+variable "create_nat_gateway" {
+  type        = bool
+  description = "whether to create a NAT gateway or not"
+}

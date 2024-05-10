@@ -51,6 +51,10 @@ resource "aws_route_table" "public" {
       gateway_id = route.value.gateway_id
     }
   }
+
+    tags = {
+    Name = "Public Route table"
+  }
 }
 
 resource "aws_route_table" "private" {
@@ -61,7 +65,30 @@ resource "aws_route_table" "private" {
 
     content {
       cidr_block = route.value.cidr_block
-      gateway_id = route.value.gateway_id
+      nat_gateway_id = route.value.gateway_id
     }
   }
+
+   tags = {
+    Name = "Private Route table"
+  }
+}
+
+#################  IGW #################
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
+}
+
+############## NAT Gateway ##############
+resource "aws_eip" "eip" {
+  count = var.create_nat_gateway ? 1 : 0
+  domain = var.domain
+}
+
+resource "aws_nat_gateway" "nat_gateway" {
+  count = var.create_nat_gateway ? 1 : 0
+  allocation_id = aws_eip.eip[0].id
+  subnet_id     = aws_subnet.public_subnet[0].id
+  depends_on    = [aws_internet_gateway.igw]
 }
