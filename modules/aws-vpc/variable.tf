@@ -61,3 +61,21 @@ variable "map_public_ip_on_launch" {
   type        = bool
   description = "A boolean flag to enable/disable automatic assignment of public IP addresses"
 }
+
+################ Route Table #################
+
+variable "public_routes" {
+  type = map(object({
+    cidr_block = string
+    gateway_id = string
+  }))
+  description = "Map of routes with CIDR block and gateway ID"
+}
+
+variable "private_routes" {
+  type = map(object({
+    cidr_block = string
+    gateway_id = string
+  }))
+  description = "Map of routes with CIDR block and gateway ID"
+}

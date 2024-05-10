@@ -36,3 +36,32 @@ resource "aws_route_table_association" "private_subnet" {
   subnet_id      = aws_subnet.private_subnet[count.index].id
   route_table_id = aws_route_table.private.id
 }
+
+
+#################  Route Table #################
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.vpc.id
+
+  dynamic "route" {
+    for_each = var.public_routes
+
+    content {
+      cidr_block = route.value.cidr_block
+      gateway_id = route.value.gateway_id
+    }
+  }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.vpc.id
+
+  dynamic "route" {
+    for_each = var.private_routes
+
+    content {
+      cidr_block = route.value.cidr_block
+      gateway_id = route.value.gateway_id
+    }
+  }
+}
