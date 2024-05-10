@@ -30,11 +30,15 @@ module "vpc" {
     }
   }
 
-  # # Private Route Table variables
-  # private_routes = {
-  #   "route1" = {
-  #     cidr_block = "0.0.0.0/0"
-  #     gateway_id = "nat-1234567890abcdef0"
-  #   }
-  # }
+  # Private Route Table variables
+  private_routes = {
+    "route1" = {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = module.vpc.nat_gateway_id
+    }
+  }
+
+  create_nat_gateway = true
+  domain = "vpc"
+
 }
