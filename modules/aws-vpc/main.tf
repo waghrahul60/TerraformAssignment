@@ -5,7 +5,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_support   = var.enable_dns_support
   enable_dns_hostnames = var.enable_dns_hostnames
 
-  tags = merge(local.default_tags,var.tags)
+  tags = merge(local.default_tags, var.tags)
 
 }
 
@@ -16,6 +16,8 @@ resource "aws_subnet" "public_subnet" {
   cidr_block              = var.public_subnet_cidr_blocks[count.index]
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = var.map_public_ip_on_launch
+
+  tags = merge(local.default_tags, var.tags, { Name = "Public Subnet" })
 }
 
 resource "aws_route_table_association" "public_subnet" {
@@ -29,6 +31,8 @@ resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.app_subnet_cidr_blocks[count.index]
   availability_zone = var.availability_zones[count.index]
+  tags              = merge(local.default_tags, var.tags, { Name = "Private Subnet" })
+
 }
 
 resource "aws_route_table_association" "private_subnet" {
@@ -52,9 +56,8 @@ resource "aws_route_table" "public" {
     }
   }
 
-    tags = {
-    Name = "Public Route table"
-  }
+  tags = merge(local.default_tags, var.tags, { Name = "Public Route Table" })
+
 }
 
 resource "aws_route_table" "private" {
@@ -64,31 +67,35 @@ resource "aws_route_table" "private" {
     for_each = var.private_routes
 
     content {
-      cidr_block = route.value.cidr_block
+      cidr_block     = route.value.cidr_block
       nat_gateway_id = route.value.gateway_id
     }
   }
 
-   tags = {
-    Name = "Private Route table"
-  }
+  tags = merge(local.default_tags, var.tags, { Name = "Private Route Table" })
+
 }
 
 #################  IGW #################
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
+
+  tags = merge(local.default_tags, var.tags, { Name = "IGW" })
+
 }
 
 ############## NAT Gateway ##############
 resource "aws_eip" "eip" {
-  count = var.create_nat_gateway ? 1 : 0
-  domain = var.domain
+  count  = var.create_nat_gateway ? 1 : 0
+  domain = local.domain
 }
 
 resource "aws_nat_gateway" "nat_gateway" {
-  count = var.create_nat_gateway ? 1 : 0
+  count         = var.create_nat_gateway ? 1 : 0
   allocation_id = aws_eip.eip[0].id
   subnet_id     = aws_subnet.public_subnet[0].id
   depends_on    = [aws_internet_gateway.igw]
+  tags = merge(local.default_tags, var.tags, { Name = "Nat Gateway" })
+
 }
