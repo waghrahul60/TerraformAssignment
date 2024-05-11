@@ -18,6 +18,7 @@ module "vpc" {
   availability_zones        = var.availability_zones
   map_public_ip_on_launch   = var.map_public_ip_on_launch
 
+
   # Public Route Table variables
   public_routes = {
     "route1" = {
@@ -39,7 +40,7 @@ module "vpc" {
 
 }
 
-
+############## Creating bastion-Host server with public IP ################## 
 module "iam-policy" {
   source               = "../../modules/iam-policy"
   iam_policy_json_file = var.iam_policy_json_file
@@ -63,12 +64,15 @@ module "ec2" {
   environment                 = var.environment
   application                 = var.application
   tags                        = var.tags
+  user_data                   = data.template_file.bastion_userdata.rendered
 }
 
 module "security-group" {
   source = "../../modules/security-group"
   region = var.region
   vpc_id = module.vpc.vpc_id
+  environment = var.environment
+  application = var.application
 
   ingress_cidr_from_port     = var.ingress_cidr_from_port
   ingress_cidr_to_port       = var.ingress_cidr_to_port
@@ -90,8 +94,4 @@ module "security-group" {
   egress_sg_protocol         = var.egress_sg_protocol
   egress_security_group_ids  = var.egress_security_group_ids
   create_egress_sg           = var.create_egress_sg
-
-  environment = var.environment
-
-  application = var.application
 }

@@ -48,6 +48,10 @@ variable "project_name" {
   description = "Name of the project"
   type        = string
   default     = "my-project"
+  validation {
+    condition = can(regex("^[a-zA-Z0-9-]{8,15}$", var.project_name))
+    error_message = "Project name must be between 8 to 15 characters and contain only letters, numbers, and hyphens."
+  }
 }
 
 
@@ -241,4 +245,10 @@ variable "egress_security_group_ids" {
 variable "iam_policy_json_file" {
   type        = string
   description = "Name of the json file"
+}
+
+variable "package_name" {
+  type = string
+  description = "package to install on server"
+  default = "httpd"
 }

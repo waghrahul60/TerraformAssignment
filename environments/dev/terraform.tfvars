@@ -42,17 +42,17 @@ tags = {
 
 # CIDR Ingress Variables
 create_ingress_cidr    = true
-ingress_cidr_from_port = [22, 8080]
-ingress_cidr_to_port   = [22, 8080]
-ingress_cidr_protocol  = ["tcp", "tcp"]
-ingress_cidr_block     = ["0.0.0.0/0", "0.0.0.0/0"]
+ingress_cidr_from_port = [22, 8080, 80]
+ingress_cidr_to_port   = [22, 8080, 80]
+ingress_cidr_protocol  = ["tcp", "tcp", "tcp"]
+ingress_cidr_block     = ["0.0.0.0/0", "0.0.0.0/0", "0.0.0.0/0"]
 
 # Security Group Ingress Variables
 create_ingress_sg          = false
 ingress_sg_from_port       = [80]
 ingress_sg_to_port         = [80]
 ingress_sg_protocol        = ["tcp"]
-ingress_security_group_ids = ["sg-0fe4363da3994c100"]
+ingress_security_group_ids = ["sg-0fe4363da3994c100"] # can give path of security group this is dummy value
 
 # CIDR Egress Variables
 create_egress_cidr    = true
@@ -66,6 +66,6 @@ create_egress_sg          = false
 egress_sg_from_port       = [0]
 egress_sg_to_port         = [0]
 egress_sg_protocol        = ["-1"]
-egress_security_group_ids = ["sg-0fe4363da3994c100"]
+egress_security_group_ids = ["sg-0fe4363da3994c100"] # can give path of security group this is dummy value
 
 iam_policy_json_file = "ec2_instance.json"

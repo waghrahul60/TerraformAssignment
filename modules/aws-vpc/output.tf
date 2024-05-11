@@ -16,7 +16,6 @@ output "private_subnet_ids" {
   description = "List of private subnet IDs"
 }
 
-
 output "vpc_id" {
   value       = aws_vpc.vpc.id
   description = "The CIDR block associated with the VPC"

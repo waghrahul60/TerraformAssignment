@@ -19,3 +19,12 @@ data "aws_ami" "amzlinux2" {
     values = [ "x86_64" ]
   }
 }
+
+# Craeting startup script 
+
+data "template_file" "bastion_userdata" {
+  template = "${file("${path.module}/../../scripts/startup_script_dev.sh")}"
+  vars = {
+    package_name = var.package_name
+  }
+}

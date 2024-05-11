@@ -67,3 +67,9 @@ variable "attach_eip" {
   type        = bool
   description = "Whether to attach Elastic IPs to EC2 instances"
 }
+
+
+variable "user_data" {
+  type = string
+  description = "this variable for ec2 startup script"
+}

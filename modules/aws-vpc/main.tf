@@ -82,7 +82,6 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(local.default_tags, var.tags, { Name = "IGW" })
-
 }
 
 ############## NAT Gateway ##############
@@ -96,6 +95,5 @@ resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.eip[0].id
   subnet_id     = aws_subnet.public_subnet[0].id
   depends_on    = [aws_internet_gateway.igw]
-  tags = merge(local.default_tags, var.tags, { Name = "Nat Gateway" })
-
+  tags          = merge(local.default_tags, var.tags, { Name = "Nat Gateway" })
 }
