@@ -66,8 +66,6 @@ variable "project_name" {
 
 ```
 
-### Instance will get public IP and if you click on public ip you will able to see Apache HTTP server page.
-
 ## add alias 
 
 - added alias if wante to create resource in diff region while calling resource module we can add this alias variable.
@@ -94,6 +92,17 @@ element()
 toset()
 range()
 ```
+
+### Instance will get public IP and if you click on public ip you will able to see Apache HTTP server page.
+
+![vpc configuration](/images/vpc.png)
+
+![ec2 instance with public ip](/images/ec2_publicip.png)
+
+![test httpd is install on ec2 and access using public ip ](/images/ec2_ip.png)
+
+
+
 
 ## Further Improvements
 
