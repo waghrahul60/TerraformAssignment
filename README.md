@@ -22,7 +22,7 @@ terraform apply
 
 ## managing dev, preprod, prod.
 
-we can create three different files as shown belo in order to manage three env with same resources but different configurations.
+- we can create three different files as shown belo in order to manage three env with same resources but different configurations.
 
 ```
 # dev.tfvars
@@ -39,7 +39,7 @@ instance_type = "m5.large"
 
 ```
 
-you can used below commands in order to deploy this  dev, preprod, prod.
+- we can used below commands in order to deploy this  dev, preprod, prod.
 
 ```
 terraform apply -var-file=dev.tfvars
@@ -51,7 +51,7 @@ terraform apply -var-file=prod.tfvars
 
 ## Used validation block in variable
 
-i have also used validation block in one of the variable resirict users 
+- i have also used validation block in one of the variable resirict users 
 
 ```
 variable "project_name" {
@@ -66,11 +66,11 @@ variable "project_name" {
 
 ```
 
-## Instance will get public IP and if you click on public ip you will able to see Apache HTTP server page.
+### Instance will get public IP and if you click on public ip you will able to see Apache HTTP server page.
 
-## alias 
+## add alias 
 
-adde alias if wante to create resource in diff region while calling resource module we can add this alias variable.
+- added alias if wante to create resource in diff region while calling resource module we can add this alias variable.
 
 ```
 resource "aws_instance" "ec2" {
@@ -80,10 +80,25 @@ resource "aws_instance" "ec2" {
 
 ```
 
+## Data Source
+
+- used datasource in order to get ami value dynamically.
+- also used in order to pass startup script tu ec2 instance.
+
+## fulctions used
+i have used below functions
+```
+merge()
+length()
+element()
+toset()
+range()
+```
+
 ## Further Improvements
 
-In VPC module we can add NACL, and VPC endpoint creation.
-We can also imrove tagging and labeling as well.
-VPC Peerning also can be implemented.
-In EC2 module we can add ebs or efs additional volume creation functionality.
-We can also create different different variable files for different resources if file getting big.
+- In VPC module we can add NACL, and VPC endpoint creation.
+- We can also imrove tagging and labeling as well.
+- VPC Peerning also can be implemented.
+- In EC2 module we can add ebs or efs additional volume creation functionality.
+- We can also create different different variable files for different resources if file getting big.
